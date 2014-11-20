@@ -134,6 +134,7 @@ and Type : sig
         key: Expression.Object.Property.key;
         value: Type.t;
         optional: bool;
+        allow_undefined: bool;
         static: bool;
       }
       type t = Loc.t * t'

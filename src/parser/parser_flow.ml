@@ -619,11 +619,12 @@ end = struct
           typeParameters;
         })
 
-      in let method_property env start_loc static key =
+      in let method_property env start_loc static key allow_undefined =
         let value = methodish env start_loc in
         let value = fst value, Type.Function (snd value) in
         fst value, Type.Object.Property.({
           key;
+          allow_undefined;
           value;
           optional = false;
           static;
@@ -636,12 +637,13 @@ end = struct
           static;
         })
 
-      in let property env start_loc static key =
+      in let property env start_loc static key allow_undefined =
         let optional = Expect.maybe env T_PLING in
         Expect.token env T_COLON;
         let value = _type env in
         Loc.btwn start_loc (fst value), Type.Object.Property.({
           key;
+          allow_undefined;
           value;
           optional;
           static;
@@ -682,6 +684,9 @@ end = struct
           semicolon env;
           properties allow_static env (acc, indexers, call_prop::callProperties)
         | _ ->
+          let allow_undefined = match Expect.maybe env T_PLING with
+          | true -> true
+          | false -> false in
           let static, (_, key) = match static, Peek.token env with
           | true, T_COLON ->
               strict_error_at env (start_loc, Error.StrictReservedWord);
@@ -696,8 +701,8 @@ end = struct
           | false, _ -> false, Parse.object_key env in
           let property = match Peek.token env with
           | T_LESS_THAN
-          | T_LPAREN -> method_property env start_loc static key
-          | _ -> property env start_loc static key in
+          | T_LPAREN -> method_property env start_loc static key allow_undefined
+          | _ -> property env start_loc static key allow_undefined in
           semicolon env;
           properties allow_static env (property::acc, indexers, callProperties)
 
