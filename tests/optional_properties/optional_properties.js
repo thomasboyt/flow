@@ -14,7 +14,5 @@ var hasA: FooType = {
   a: 'foo'
 };
 
-var nullB: FooType = {
-  a: 'foo',
-  b: null
-};
+var b: string = hasA.b || 'foo';
+var c: number = hasA.b || 0;

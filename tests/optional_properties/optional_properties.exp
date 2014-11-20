@@ -1,0 +1,6 @@
+
+optional_properties.js:5:7,12: string
+This type is incompatible with
+  optional_properties.js:18:8,13: number
+
+Found 1 error
