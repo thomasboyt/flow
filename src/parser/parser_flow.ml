@@ -684,9 +684,7 @@ end = struct
           semicolon env;
           properties allow_static env (acc, indexers, call_prop::callProperties)
         | _ ->
-          let allow_undefined = match Expect.maybe env T_PLING with
-          | true -> true
-          | false -> false in
+          let allow_undefined = Expect.maybe env T_PLING in
           let static, (_, key) = match static, Peek.token env with
           | true, T_COLON ->
               strict_error_at env (start_loc, Error.StrictReservedWord);
