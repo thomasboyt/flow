@@ -1,0 +1,6 @@
+
+constructor_field_ref.js:11:14,21: string
+This type is incompatible with
+  constructor_field_ref.js:5:6,11: number
+
+Found 1 error
